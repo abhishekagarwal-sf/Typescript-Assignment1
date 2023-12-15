@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Example</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="dest/example.js" defer></script>
+  </head>
+  <body>
+    <button id="refreshBtn" onclick="loadData()">Load Data</button>
+    <button id="addUserBtn" onclick="openUserRegistrationForm()">Add User</button>
+    <div id="userTable">
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>First Name</th>
+            <th>Middle Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone No.</th>
+            <th>Role</th>
+            <th>Address</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="userData"></tbody>
+      </table>
+    </div>
+    <div class="form-popup" id="userFormSection">
+      <form
+        action=""
+        onsubmit="createUser();return false;"
+        class="form-container"
+        id="userForm"
+      >
+        <h1>User Registration</h1>
+        <div>
+          <label for="name"><b>Name:</b></label>
+          <input
+            type="text"
+            placeholder="Enter Name"
+            name="name"
+            id="name"
+            autocomplete="off"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="email"><b>Email:</b></label>
+          <input
+            type="text"
+            placeholder="Enter Email"
+            name="email"
+            id="email"
+            autocomplete="off"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="phnNo"><b>Phone No:</b></label>
+          <input
+            type="number"
+            placeholder="Enter Phone No."
+            name="phnNo"
+            id="phnNo"
+            pattern="/^-?\d+\.?\d*$/" 
+            onKeyPress="if(this.value.length==10) return false;" 
+            autocomplete="off"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="roleDropDown">Role:</label>
+          <select id="roleDropDown" required>
+            <option disabled selected value>Select Role</option>
+          </select>
+        </div>
+        <div>
+          <label for="address"><b>Address:</b></label>
+          <input
+            type="text"
+            placeholder="Enter Address"
+            name="address"
+            id="address"
+            autocomplete="off"
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn">Register</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">
+          Cancel
+        </button>
+      </form>
+    </div>
+  </body>
+</html>

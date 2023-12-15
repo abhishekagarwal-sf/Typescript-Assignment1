@@ -1,0 +1,45 @@
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    /* display: none; */
+  }
+
+  #userTable{
+    display: none;
+  }
+
+  #addUserBtn{
+    display: none;
+  }
+
+  #saveSection{
+    display: none;
+  }
+  #refreshBtn{
+    margin-bottom: 10px;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  
+  .form-container > div{
+    margin-bottom: 5px;
+  }
+
+  .form-popup {
+    display: none;
+    position: fixed;
+    align-items: center;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+  }
+  
+  /* Add styles to the form container */
+  .form-container {
+    padding: 10px;
+  }
