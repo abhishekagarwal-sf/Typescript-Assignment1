@@ -1,6 +1,7 @@
 enum Role {
-    USER = "user",
-    ADMIN = "admin"
+    ADMIN = "admin",
+    SUPERADMIN = "superadmin",
+    SUBSCRIBER = "subscriber"
 }
 
 class User {
@@ -14,18 +15,18 @@ class User {
     }
 }
 
-interface Actions {
-    createUser(name: string, email: string, phoneNo: number, role: string, address: string): number;
-    deleteUser(id: number): void;
-    getUser(searchKey: number): User;
-    updateUser(user: User): number;
+interface Actions<T,U,V> {
+    createUser(name: T, email: T, phoneNo: U, role: T, address: T): U;
+    deleteUser(id: U): void;
+    getUser(searchKey: U): V;
+    updateUser(user: V): U;
 }
 let userList: Array<User> = [
     new User(1,"Ryan","Ten","Jones","abc@gmail.com",1234567890,Role.ADMIN,"64, North Street, LA, Los Angeles"),
-    new User(2,"Seth","","Rollin","def@gmail.com",1234567890,Role.USER,"64, North Street, LA, Los Angeles"),
-    new User(3,"Faf","Du","Plesis","ghi@gmail.com",1234567890,Role.USER,"64, North Street, LA, Los Angeles")];
+    new User(2,"Seth","","Rollin","def@gmail.com",1234567890,Role.SUPERADMIN,"64, North Street, LA, Los Angeles"),
+    new User(3,"Faf","Du","Plesis","ghi@gmail.com",1234567890,Role.SUBSCRIBER,"64, North Street, LA, Los Angeles")];
 
-class Utility implements Actions{
+class Utility implements Actions<string,number,User>{
     
     createUser(name: string, email: string, phoneNo: number, role: string, address: string): number{
 

@@ -1,8 +1,9 @@
 "use strict";
 var Role;
 (function (Role) {
-    Role["USER"] = "user";
     Role["ADMIN"] = "admin";
+    Role["SUPERADMIN"] = "superadmin";
+    Role["SUBSCRIBER"] = "subscriber";
 })(Role || (Role = {}));
 class User {
     constructor(id, firstName, middleName, lastName, email, phoneNo, role, address) {
@@ -21,8 +22,8 @@ class User {
 }
 let userList = [
     new User(1, "Ryan", "Ten", "Jones", "abc@gmail.com", 1234567890, Role.ADMIN, "64, North Street, LA, Los Angeles"),
-    new User(2, "Seth", "", "Rollin", "def@gmail.com", 1234567890, Role.USER, "64, North Street, LA, Los Angeles"),
-    new User(3, "Faf", "Du", "Plesis", "ghi@gmail.com", 1234567890, Role.USER, "64, North Street, LA, Los Angeles")
+    new User(2, "Seth", "", "Rollin", "def@gmail.com", 1234567890, Role.SUPERADMIN, "64, North Street, LA, Los Angeles"),
+    new User(3, "Faf", "Du", "Plesis", "ghi@gmail.com", 1234567890, Role.SUBSCRIBER, "64, North Street, LA, Los Angeles")
 ];
 class Utility {
     createUser(name, email, phoneNo, role, address) {
