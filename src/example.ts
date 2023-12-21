@@ -5,15 +5,42 @@ enum Role {
 }
 
 class User {
+    @formatUserDOB()
+    public birthDate: Date;
     constructor(private id: number,public firstName: string,public middleName: string,
-        public lastName: string, public email: string, public phoneNo: number,
-        public role: Role, public address: string) { }
+        public lastName: string,public email: string, public phoneNo: number,
+        public role: Role, public address: string,birthDate: Date) {
+            this.birthDate = birthDate;
+         }
 
     get getId(): number {
         return this.id;
 
     }
 }
+
+function formatUserDOB(){
+    return function t(target: Object, propertyKey: string)
+    {
+        console.log(target);
+        console.log(propertyKey);
+       
+        const valuesByInstance = new WeakMap();
+        Object.defineProperty(target,propertyKey,{
+            set: function(value: Date){
+                console.log(this);
+                console.log(value);
+                valuesByInstance.set(this,value)
+            },
+            get: function(){
+                return valuesByInstance.get(this).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            }
+        })
+    }
+    
+}
+
+
 
 interface Actions<T,U,V> {
     createUser(name: T, email: T, phoneNo: U, role: T, address: T): U;
@@ -22,9 +49,9 @@ interface Actions<T,U,V> {
     updateUser(user: V): U;
 }
 let userList: Array<User> = [
-    new User(1,"Ryan","Ten","Jones","abc@gmail.com",1234567890,Role.ADMIN,"64, North Street, LA, Los Angeles"),
-    new User(2,"Seth","","Rollin","def@gmail.com",1234567890,Role.SUPERADMIN,"64, North Street, LA, Los Angeles"),
-    new User(3,"Faf","Du","Plesis","ghi@gmail.com",1234567890,Role.SUBSCRIBER,"64, North Street, LA, Los Angeles")];
+    new User(1,"Ryan","Ten","Jones","abc@gmail.com",1234567890,Role.ADMIN,"64, North Street, LA, Los Angeles",new Date("2001-01-15")),
+    new User(2,"Seth","","Rollin","def@gmail.com",1234567890,Role.SUPERADMIN,"64, North Street, LA, Los Angeles",new Date("2002-01-16")),
+    new User(3,"Faf","Du","Plesis","ghi@gmail.com",1234567890,Role.SUBSCRIBER,"64, North Street, LA, Los Angeles",new Date("2003-09-15"))];
 
 class Utility implements Actions<string,number,User>{
     
@@ -52,7 +79,7 @@ class Utility implements Actions<string,number,User>{
         const roleEnum = role as Role;
 
 
-        const newUser = new User(id,firstName,middleName,lastName,email,phoneNo,roleEnum,address);
+        const newUser = new User(id,firstName,middleName,lastName,email,phoneNo,roleEnum,address,new Date());
         userList.push(newUser);
         return id;
     }
@@ -98,7 +125,9 @@ function loadData(): void {
     let tableBody = <HTMLElement>document.getElementById("userData");
     let userData = '';
     userList.forEach((user) => {
+        
         console.log(user);
+        console.log(user.birthDate + 'djdj');
         
         userData += `
                 <tr>
@@ -106,6 +135,7 @@ function loadData(): void {
                 <td>${user.firstName}</td>
                 <td>${user.middleName}</td>
                 <td>${user.lastName}</td>
+                <td>${user.birthDate}</td>
                 <td>${user.email}</td>
                 <td>${user.phoneNo}</td>
                 <td>${user.role}</td>

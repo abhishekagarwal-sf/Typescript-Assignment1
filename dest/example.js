@@ -1,4 +1,10 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var Role;
 (function (Role) {
     Role["ADMIN"] = "admin";
@@ -6,7 +12,7 @@ var Role;
     Role["SUBSCRIBER"] = "subscriber";
 })(Role || (Role = {}));
 class User {
-    constructor(id, firstName, middleName, lastName, email, phoneNo, role, address) {
+    constructor(id, firstName, middleName, lastName, email, phoneNo, role, address, birthDate) {
         this.id = id;
         this.firstName = firstName;
         this.middleName = middleName;
@@ -15,15 +21,36 @@ class User {
         this.phoneNo = phoneNo;
         this.role = role;
         this.address = address;
+        this.birthDate = birthDate;
     }
     get getId() {
         return this.id;
     }
 }
+__decorate([
+    formatUserDOB()
+], User.prototype, "birthDate", void 0);
+function formatUserDOB() {
+    return function t(target, propertyKey) {
+        console.log(target);
+        console.log(propertyKey);
+        const valuesByInstance = new WeakMap();
+        Object.defineProperty(target, propertyKey, {
+            set: function (value) {
+                console.log(this);
+                console.log(value);
+                valuesByInstance.set(this, value);
+            },
+            get: function () {
+                return valuesByInstance.get(this).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            }
+        });
+    };
+}
 let userList = [
-    new User(1, "Ryan", "Ten", "Jones", "abc@gmail.com", 1234567890, Role.ADMIN, "64, North Street, LA, Los Angeles"),
-    new User(2, "Seth", "", "Rollin", "def@gmail.com", 1234567890, Role.SUPERADMIN, "64, North Street, LA, Los Angeles"),
-    new User(3, "Faf", "Du", "Plesis", "ghi@gmail.com", 1234567890, Role.SUBSCRIBER, "64, North Street, LA, Los Angeles")
+    new User(1, "Ryan", "Ten", "Jones", "abc@gmail.com", 1234567890, Role.ADMIN, "64, North Street, LA, Los Angeles", new Date("2001-01-15")),
+    new User(2, "Seth", "", "Rollin", "def@gmail.com", 1234567890, Role.SUPERADMIN, "64, North Street, LA, Los Angeles", new Date("2002-01-16")),
+    new User(3, "Faf", "Du", "Plesis", "ghi@gmail.com", 1234567890, Role.SUBSCRIBER, "64, North Street, LA, Los Angeles", new Date("2003-09-15"))
 ];
 class Utility {
     createUser(name, email, phoneNo, role, address) {
@@ -44,7 +71,7 @@ class Utility {
         }
         const id = userList.length > 0 ? userList[userList.length - 1].getId + 1 : 1;
         const roleEnum = role;
-        const newUser = new User(id, firstName, middleName, lastName, email, phoneNo, roleEnum, address);
+        const newUser = new User(id, firstName, middleName, lastName, email, phoneNo, roleEnum, address, new Date());
         userList.push(newUser);
         return id;
     }
@@ -77,12 +104,14 @@ function loadData() {
     let userData = '';
     userList.forEach((user) => {
         console.log(user);
+        console.log(user.birthDate + 'djdj');
         userData += `
                 <tr>
                 <td>${user.getId}</td>
                 <td>${user.firstName}</td>
                 <td>${user.middleName}</td>
                 <td>${user.lastName}</td>
+                <td>${user.birthDate}</td>
                 <td>${user.email}</td>
                 <td>${user.phoneNo}</td>
                 <td>${user.role}</td>
